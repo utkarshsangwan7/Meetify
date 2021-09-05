@@ -56,7 +56,7 @@
   grid-template-columns: repeat(auto-fill,minmax(500px,1fr));
   grid-gap: 1vw;
 }
-#video-tag{
+.video-tag{
   border-radius:1vw;
   width: inherit;
   max-width: 50vw;
@@ -103,7 +103,7 @@
     margin: 1vw;
     width: inherit;
   }
-  #video-tag{
+  .video-tag{
     border-radius:1vw;
     padding: 1vw;
     max-width: 100%;
