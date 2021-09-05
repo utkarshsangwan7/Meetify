@@ -1,0 +1,137 @@
+.App {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  text-align: center;
+  align-items: flex-end;
+  height: 100%;
+}
+.chat-wrapper{
+  border-radius: 20px;
+  background-color: #E1E5EA;
+  margin: 1vw;
+  padding: 1vw;
+  width: 100%;
+}
+.message-box{
+  display:grid;
+  grid-template-rows: 1fr;
+  grid-template-columns:80% 20%;
+  background-color: white;
+  margin: 10px;
+  padding: 5px;
+  border-radius: 10px;
+}
+.message-textbox{
+  border-style: none;
+}
+/* width */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 5px grey; 
+  border-radius: 10px;
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: grey; 
+  border-radius: 10px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #b30000; 
+}
+.chat{
+  overflow-y: scroll;
+  height: 72vh;
+}
+#testing-video{
+  display: grid;
+  width: inherit;
+  grid-template-columns: repeat(auto-fill,minmax(500px,1fr));
+  grid-gap: 1vw;
+}
+#video-tag{
+  border-radius:1vw;
+  width: inherit;
+  max-width: 50vw;
+}
+.Button-toggle{
+  display: none;
+}
+.main-render{
+  display: grid;
+  grid-template-columns: minmax(500px,2fr) 1fr;
+  grid-template-rows: auto;
+  justify-items: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+}
+.main-render-wrapper{
+  width: 100%;
+}
+@media only screen and (max-width:1200px){
+  .main-render{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+  }
+  .Button-toggle{
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    width: 100%;
+  }
+  .media-wrapper{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 100%;
+  }
+  #testing-video{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin: 1vw;
+    width: inherit;
+  }
+  #video-tag{
+    border-radius:1vw;
+    padding: 1vw;
+    max-width: 100%;
+  }
+}
+.media-wrapper{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  width: inherit;
+}
+.mediaChat{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-items: flex-end;
+  width: inherit;
+}
+.groupChat-wrapper{
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  width: inherit;
+}
+.groupChat{
+  display: flex;
+  flex-wrap: wrap;
+  width: inherit;
+}
+
