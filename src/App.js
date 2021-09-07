@@ -24,20 +24,6 @@ function App() {
     setStreams(Streams=>Streams.concat(remoteStream));
   }
 
-  if(myStream){
-    my_peer.off('call').on('call',(call)=>{
-        console.log('this is the new stream in the new',myStream);
-        call.answer(myStream);
-        call.on('stream',(remoteStream)=>{ 
-          if(!callList[call.peer]){
-            console.log('i am the oldest not getting back stream in the new',remoteStream);
-            change_State_of_Streams(remoteStream);
-            callList[call.peer] = call;
-          }
-        });
-    });
-  }
-  
   useEffect(()=>{
       my_peer.on('open',(id)=>{
           setVideoID(id);
@@ -113,11 +99,25 @@ function App() {
             }
           });
       });}
+    
+      if(myStream){
+        my_peer.off('call').on('call',(call)=>{
+            console.log('this is the new stream in the new',myStream);
+            call.answer(myStream);
+            call.on('stream',(remoteStream)=>{ 
+              if(!callList[call.peer]){
+                console.log('i am the oldest not getting back stream in the new',remoteStream);
+                change_State_of_Streams(remoteStream);
+                callList[call.peer] = call;
+              }
+            });
+        });
+      }
       
   useEffect(()=>{
     if(myStream){
       const new_element = document.createElement('video');
-      new_element.id = 'video-tag'+myStream;
+      new_element.id = 'video-tag'+myStream.id;
       new_element.className = 'video-tag';
       const divElement = document.getElementById('testing-video');
       console.log('only video',myStream.getVideoTracks()[0]);
@@ -128,14 +128,13 @@ function App() {
       if(divElement&&new_element)
         divElement.appendChild(new_element);
     }
-    if(myStream)
-    socket.emit('UpdateStreamId',myStream.id);
   },[myStream]);
 
   const configure_media = ()=>{
     navigator.mediaDevices.getUserMedia({video:true,audio:true})
     .then((stream)=>{
        setMyStream(stream);
+       socket.emit('UpdateStreamId',stream.id);
     }).catch(console.log);
   }
 
