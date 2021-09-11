@@ -1,5 +1,6 @@
 import React,{useState,useEffect}from 'react';
 import GroupChat from './Components/GroupChat/GroupChat';
+import Participants from './Components/Participants/Participants';
 import Login from './Components/Login/Login';
 import './App.css';
 import Socketio from 'socket.io-client';
@@ -14,7 +15,7 @@ function App() {
   const [UserID,setUserID] = useState('');
   const [VideoID,setVideoID] = useState('');
   // eslint-disable-next-line
-  const [Participants,setParticipants] = useState([]);
+  const [Participants_list,setParticipants] = useState([]);
   const [Streams,setStreams] = useState([]);
   const [myStream,setMyStream] = useState(null);
   const callList = [];
@@ -117,6 +118,7 @@ function App() {
   useEffect(()=>{
     if(myStream){
       const new_element = document.createElement('video');
+      new_element.muted = true;
       new_element.id = 'video-tag'+myStream.id;
       new_element.className = 'video-tag';
       const divElement = document.getElementById('testing-video');
@@ -153,15 +155,47 @@ function App() {
       const inputfield = document.getElementById('message-input-field');
       inputfield.value = '';
   }
+
+  const onClickMuteUnmute = ()=>{
+    myStream.getTracks()[0].enabled = !myStream.getTracks()[0].enabled;
+  }
+
+  const onClickVideoOnOFF = ()=>{
+    myStream.getTracks()[1].enabled = !myStream.getTracks()[1].enabled;
+  }
+
+  const displayMessages = ()=>{
+    const chat = document.getElementById('chat');
+    const part = document.getElementById('Participants');
+    chat.style.display = "block";
+    part.style.display = "none";
+  }
+
+  const displayParticipants = ()=>{
+    const chat = document.getElementById('chat');
+    const part = document.getElementById('Participants');
+    chat.style.display = "none";
+    part.style.display = "block";
+  }
+
+  const onClickMedia = ()=>{
+    const my_media = document.getElementsByClassName('mediaChat');
+    const my_chat = document.getElementsByClassName('chat-wrapper');
+    my_media[0].style.display = "flex";
+    my_chat[0].style.display = "none";
+  }
+  const onClickChat = ()=>{
+    const my_media = document.getElementsByClassName('mediaChat');
+    const my_chat = document.getElementsByClassName('chat-wrapper');
+    my_media[0].style.display = "none";
+    my_chat[0].style.display = "block";
+  }
   return (
     <div className="App">
         {
           MeetID&&UserID?
             <div className='main-render-wrapper'>
-              <div className='Button-toggle'>
-                 <button>Home</button>
-                 <button>Chat</button>
-              </div>
+            <div className='main-render-wrapper'>
             <div className='main-render'>
             <div className='media-wrapper'>
               <div className='mediaChat'>
@@ -173,10 +207,17 @@ function App() {
               {message?
                 <div className='chat-wrapper'>
                   <h1>Group Chat</h1>
+                  <div>
+                    <button onClick={displayMessages}>Messages</button>
+                    <button onClick={displayParticipants}>Participants</button>
+                  </div>
+                  <div className='Participants' id='Participants'><Participants participants={Participants_list}/></div>
+                  <div id='chat'>
                   <div className='chat'><GroupChat socket={socket} message={message} UserID={UserID}/></div>
                   <div className='message-box'>
                     <input className='message-textbox' id='message-input-field' onChange={onChangeInput} placeholder='Write your message..'></input>
                     <button onClick={onClickSend}>Send</button>
+                  </div>
                   </div>
                 </div>
                 :<div></div>
@@ -184,6 +225,18 @@ function App() {
               </div>
             </div>
             </div>
+            </div>
+              
+              <div className='footer'>
+                <nav className="navbar fixed-bottom navbar-light bg-dark">
+                <button onClick={onClickMuteUnmute}>MUTE/UNMUTE</button>
+                <button onClick={onClickVideoOnOFF}>VIDEO ON/OFF</button>
+                <div className='Button-toggle'>
+                 <button onClick={onClickMedia}>HOME</button>
+                 <button onClick={onClickChat}>CHAT</button>
+                </div>
+                </nav>
+              </div>
             </div>
           :
           <Login setMeetid={setMeetid} setUserID={setUserID} VideoID={VideoID} socket={socket}/>
