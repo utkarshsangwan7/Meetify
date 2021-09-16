@@ -68,6 +68,22 @@ function App() {
           }
         }
       });
+      socket.on('RemovingScreenDivFromWatching',(user)=>{
+        console.log('client removing screen div from watching',user.ScreenStreamID);
+        const div_element = document.getElementById('video-tag'+user.ScreenStreamID);
+        if(div_element){
+          div_element.remove();
+          const index = Streams.findIndex((stream)=>{
+            return stream.id===user.ScreenStreamID;
+          });
+          if(index){
+            const temp = Streams;
+            temp.splice(index,1);
+            setStreams(temp);
+          }
+        }
+        setScreenStream(null);
+      });
       console.log('Streams in app.js',Streams);
       // eslint-disable-next-line
   },[socket]);
@@ -167,20 +183,6 @@ function App() {
     }).catch(console.log);
   }
 
-  const displayOnlySharedScreen = (SharedScreenStream)=>{
-    const mainRender = document.getElementById('main-render');
-    const mainRenderWrapper = document.getElementById('main-render-wrapper');
-    mainRender.style.display = 'none';
-    const screen = document.createElement('video');
-    screen.src = SharedScreenStream;
-    screen.onloadedmetadata = ()=>{
-      screen.play();
-    };
-    if(mainRenderWrapper&&screen){
-      mainRenderWrapper.appendChild(screen);
-    }
-    console.log(SharedScreenStream);
-  }
   const onChangeInput = (e)=>{
       setInput(e.target.value);
   } 
@@ -237,9 +239,17 @@ function App() {
     }).then((stream)=>{
       if(stream){
         setScreenStream(stream);
+        socket.emit('UpdateScreenStreamId',stream.id);
         socket.emit('ShareScreenInRoom',ScreenID,MeetID);
       }
     });
+  }
+
+  if(ScreenStream){
+    ScreenStream.getVideoTracks()[0].addEventListener('ended', () => {
+    console.log('Removing the Screen Share Div');
+    socket.emit('RemoveShareScreenDiv',MeetID);
+  });
   }
   return (
     <div className="App">
