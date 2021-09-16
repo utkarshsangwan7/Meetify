@@ -1,6 +1,6 @@
 import React,{useState} from 'react';
 
-const Login = ({setMeetid,setUserID,socket,VideoID})=>{
+const Login = ({setMeetid,setUserID,socket,VideoID,ScreenID})=>{
     const [MeetInput,setMeetInput] = useState('');
     const [UserInput,setUserInput] = useState('');
 
@@ -13,7 +13,7 @@ const Login = ({setMeetid,setUserID,socket,VideoID})=>{
     const onClickJoin = ()=>{
         setMeetid(MeetInput);
         setUserID(UserInput);
-        socket.emit('Join',MeetInput,UserInput,VideoID);
+        socket.emit('Join',MeetInput,UserInput,VideoID,ScreenID);
         const input1 = document.getElementById('Meetid');
         const input2 = document.getElementById('Userid');
         input1.value = '';

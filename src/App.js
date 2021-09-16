@@ -1,4 +1,4 @@
-import React,{useState,useEffect}from 'react';
+import React,{useState,useEffect,useMemo}from 'react';
 import GroupChat from './Components/GroupChat/GroupChat';
 import Participants from './Components/Participants/Participants';
 import Login from './Components/Login/Login';
@@ -8,15 +8,18 @@ import Peer from 'peerjs';
 
 const socket = Socketio('http://localhost:2000/',{ transports: ['websocket', 'polling', 'flashsocket'] });
 const my_peer = new Peer();
+const screen_peer = new Peer();
 function App() {
   const [message,setMessage] = useState([]);
   const [input,setInput] = useState('');
   const [MeetID,setMeetid] = useState('');
   const [UserID,setUserID] = useState('');
   const [VideoID,setVideoID] = useState('');
+  const [ScreenID,setScreenID] = useState('');
   // eslint-disable-next-line
   const [Participants_list,setParticipants] = useState([]);
   const [Streams,setStreams] = useState([]);
+  const [ScreenStream,setScreenStream] = useState(null);
   const [myStream,setMyStream] = useState(null);
   const callList = [];
 
@@ -28,6 +31,9 @@ function App() {
   useEffect(()=>{
       my_peer.on('open',(id)=>{
           setVideoID(id);
+      });
+      screen_peer.on('open',(id)=>{
+          setScreenID(id);
       });
       socket.on('Welcome',(chat)=>{
         console.log(chat);
@@ -100,19 +106,40 @@ function App() {
             }
           });
       });}
-    
       if(myStream){
         my_peer.off('call').on('call',(call)=>{
             console.log('this is the new stream in the new',myStream);
             call.answer(myStream);
-            call.on('stream',(remoteStream)=>{ 
+            call.on('stream',(remoteStream)=>{
+              if(remoteStream!==null){ 
               if(!callList[call.peer]){
                 console.log('i am the oldest not getting back stream in the new',remoteStream);
                 change_State_of_Streams(remoteStream);
                 callList[call.peer] = call;
               }
+              }
             });
         });
+      }
+
+      if(myStream){
+        socket.off('RecieveShareScreen').on('RecieveShareScreen',(user_videoID)=>{
+          console.log('Ask for shared Screen',myStream);
+            const call = screen_peer.call(user_videoID,myStream);
+            call.on('stream',(remoteStream)=>{
+              change_State_of_Streams(remoteStream);
+            });
+        });
+      }
+
+      if(ScreenStream){
+        screen_peer.off('call').on('call',(call)=>{
+          console.log('this is the new stream in the new',ScreenStream);
+          call.answer(ScreenStream);
+          call.on('stream',(remoteStream)=>{
+            if(remoteStream===null)console.log('useless');
+          });
+      });
       }
       
   useEffect(()=>{
@@ -122,13 +149,13 @@ function App() {
       new_element.id = 'video-tag'+myStream.id;
       new_element.className = 'video-tag';
       const divElement = document.getElementById('testing-video');
-      console.log('only video',myStream.getVideoTracks()[0]);
       new_element.srcObject = myStream;
       new_element.onloadedmetadata = ()=>{
           new_element.play();
       };
       if(divElement&&new_element)
         divElement.appendChild(new_element);
+      console.log('My stream type ',myStream);
     }
   },[myStream]);
 
@@ -140,6 +167,20 @@ function App() {
     }).catch(console.log);
   }
 
+  const displayOnlySharedScreen = (SharedScreenStream)=>{
+    const mainRender = document.getElementById('main-render');
+    const mainRenderWrapper = document.getElementById('main-render-wrapper');
+    mainRender.style.display = 'none';
+    const screen = document.createElement('video');
+    screen.src = SharedScreenStream;
+    screen.onloadedmetadata = ()=>{
+      screen.play();
+    };
+    if(mainRenderWrapper&&screen){
+      mainRenderWrapper.appendChild(screen);
+    }
+    console.log(SharedScreenStream);
+  }
   const onChangeInput = (e)=>{
       setInput(e.target.value);
   } 
@@ -155,7 +196,7 @@ function App() {
       const inputfield = document.getElementById('message-input-field');
       inputfield.value = '';
   }
-
+  
   const onClickMuteUnmute = ()=>{
     myStream.getTracks()[0].enabled = !myStream.getTracks()[0].enabled;
   }
@@ -190,13 +231,23 @@ function App() {
     my_media[0].style.display = "none";
     my_chat[0].style.display = "block";
   }
+  const onClickShareOnOFF = ()=>{
+    navigator.mediaDevices.getDisplayMedia({
+      captureStream:null
+    }).then((stream)=>{
+      if(stream){
+        setScreenStream(stream);
+        socket.emit('ShareScreenInRoom',ScreenID,MeetID);
+      }
+    });
+  }
   return (
     <div className="App">
         {
           MeetID&&UserID?
             <div className='main-render-wrapper'>
-            <div className='main-render-wrapper'>
-            <div className='main-render'>
+            <div className='main-render-wrapper' id='main-render-wrapper'>
+            <div className='main-render' id='main-render'>
             <div className='media-wrapper'>
               <div className='mediaChat'>
                   <div id='testing-video'></div>
@@ -231,6 +282,7 @@ function App() {
                 <nav className="navbar fixed-bottom navbar-light bg-dark">
                 <button onClick={onClickMuteUnmute}>MUTE/UNMUTE</button>
                 <button onClick={onClickVideoOnOFF}>VIDEO ON/OFF</button>
+                <button onClick={onClickShareOnOFF}>SHARE/UNSHARE SCREEN</button>
                 <div className='Button-toggle'>
                  <button onClick={onClickMedia}>HOME</button>
                  <button onClick={onClickChat}>CHAT</button>
@@ -239,7 +291,7 @@ function App() {
               </div>
             </div>
           :
-          <Login setMeetid={setMeetid} setUserID={setUserID} VideoID={VideoID} socket={socket}/>
+          <Login setMeetid={setMeetid} setUserID={setUserID} VideoID={VideoID} ScreenID={ScreenID} socket={socket}/>
         }
     </div>
   );

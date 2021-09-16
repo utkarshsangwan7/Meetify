@@ -1,6 +1,6 @@
 .App {
   display: flex;
-  background-color: black;
+  /* background-color: black; */
   flex-direction: column;
   flex-wrap: wrap;
   text-align: center;
@@ -86,6 +86,38 @@
 .main-render-wrapper{
   width: 100%;
 }
+.navbar{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  opacity: 0.7;
+}
+.media-wrapper{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  width: inherit;
+}
+.mediaChat{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-items: flex-end;
+  width: inherit;
+}
+.groupChat-wrapper{
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  width: inherit;
+}
+.groupChat{
+  display: flex;
+  flex-wrap: wrap;
+  width: inherit;
+}
+
 @media only screen and (max-width:1200px){
   .chat-wrapper{
     display: none;
@@ -121,35 +153,3 @@
     max-width: 100%;
   }
 }
-.navbar{
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  opacity: 0.7;
-}
-.media-wrapper{
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  width: inherit;
-}
-.mediaChat{
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-items: flex-end;
-  width: inherit;
-}
-.groupChat-wrapper{
-  display: flex;
-  flex-direction: column;
-  flex-wrap: wrap;
-  align-items: flex-end;
-  width: inherit;
-}
-.groupChat{
-  display: flex;
-  flex-wrap: wrap;
-  width: inherit;
-}
-
