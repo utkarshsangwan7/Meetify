@@ -1,19 +1,23 @@
 .App {
   display: flex;
-  /* background-color: black; */
   flex-direction: column;
-  flex-wrap: wrap;
-  text-align: center;
-  align-items: flex-end;
+  /* background-color: black; */
   height: 100%;
 }
 .chat-wrapper{
   border-radius: 20px;
   background-color: #E1E5EA;
-  margin: 1vw;
+  /* margin: 1vw; */
   padding: 1vw;
   width: 100%;
-  min-height: inherit;
+  height: inherit;
+  max-height: 79vh;
+}
+#chat{
+  display: grid;
+  grid-template-rows: 10fr 1fr;
+  height: inherit;
+  max-height: 65vh;
 }
 .message-box{
   display:grid;
@@ -50,34 +54,41 @@
 }
 .chat{
   overflow-y: scroll;
-  height: 72vh;
+  /* height: 72vh; */
+  max-height: 75vh;
 }
 .Participants{
   display: none;
-  height: 72vh;
+  /* height: 72vh; */
 }
 #testing-video{
   display: grid;
   width: inherit;
-  grid-template-columns: repeat(auto-fill,minmax(500px,1fr));
+  grid-template-columns: repeat(auto-fill,minmax(400px,auto));
   grid-gap: 1vw;
 }
 .video-tag{
   border-radius:1vw;
   width: inherit;
   max-width: 50vw;
+  cursor: pointer;
 }
 .Button-toggle{
   display: none;
+}
+.icon{
+  /* background-color: crimson; */
+  /* border-radius: 10px; */
 }
 .main-render{
   display: grid;
   grid-template-columns: minmax(500px,2fr) 1fr;
   grid-template-rows: auto;
   justify-items: center;
-  align-items: center;
+  /* align-items: center; */
   width: 100%;
-  height: 100%;
+  height: inherit;
+  max-height: 79vh;
 }
 .footer{
   width: 100%;
@@ -85,8 +96,33 @@
 }
 .main-render-wrapper{
   width: 100%;
+  height: inherit;
+  max-height: 79vh;
 }
-.navbar{
+.header{
+  width: 100%;
+  margin-bottom:9vw;
+}
+.navbar-top{
+  font-family: 'Grand Hotel', cursive;
+  border-top-width: 10px;
+    border-right-width: 0px;
+    border-bottom-width: 0px;
+    border-left-width: 0px;
+  border-top-style: solid;
+  border-image: linear-gradient(
+139deg, #fb8817, #ff4b01, #c12127, #e02aff) 3;
+    border-image-source: linear-gradient(
+139deg, rgb(251, 136, 23), rgb(255, 75, 1), rgb(193, 33, 39), rgb(224, 42, 255));
+    border-image-slice: 3;
+    border-image-width: 1;
+    border-image-outset: 0;
+    border-image-repeat: stretch;
+}
+.navbar-brand{
+  font-size: xx-large;
+}
+.navbar-bottom{
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -97,6 +133,8 @@
   flex-direction: row;
   flex-wrap: wrap;
   width: inherit;
+  max-height: 79vh;
+  overflow-y: scroll;
 }
 .mediaChat{
   display: flex;
@@ -106,18 +144,23 @@
   width: inherit;
 }
 .groupChat-wrapper{
-  display: flex;
+  /* display: flex;
   flex-direction: column;
   flex-wrap: wrap;
   align-items: flex-end;
+  width: inherit; */
   width: inherit;
+  height: inherit;
+  max-height: 79vh;
+  position: sticky;
 }
 .groupChat{
   display: flex;
   flex-wrap: wrap;
   width: inherit;
+  height: inherit;
+  max-height: 79vh;
 }
-
 @media only screen and (max-width:1200px){
   .chat-wrapper{
     display: none;
@@ -128,6 +171,7 @@
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
+    overflow-y: clip;
   }
   .Button-toggle{
     display: flex;

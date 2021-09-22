@@ -1,6 +1,8 @@
-import React,{useState,useEffect,useMemo}from 'react';
+import React,{useState,useEffect}from 'react';
 import GroupChat from './Components/GroupChat/GroupChat';
 import Participants from './Components/Participants/Participants';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faMicrophone,faMicrophoneSlash,faVideo,faVideoSlash,faArrowUp,faHouseUser,faMess} from '@fortawesome/free-solid-svg-icons'
 import Login from './Components/Login/Login';
 import './App.css';
 import Socketio from 'socket.io-client';
@@ -98,6 +100,8 @@ function App() {
       new_element = document.createElement('video');
       new_element.id = 'video-tag'+Streams[Streams.length-1].id;
       new_element.className = 'video-tag';
+      new_element.setAttribute('onclick',`onClickExpandStream(${new_element.id});`); // for FF
+      new_element.onclick = function() {onClickExpandStream(new_element.id);};
       divElement = document.getElementById('testing-video');
       new_element.srcObject = Streams[Streams.length-1];
       console.log('last index stream',Streams[Streams.length-1]);
@@ -164,6 +168,8 @@ function App() {
       new_element.muted = true;
       new_element.id = 'video-tag'+myStream.id;
       new_element.className = 'video-tag';
+      new_element.setAttribute('onclick',`onClickExpandStream(${new_element.id});`); // for FF
+      new_element.onclick = function() {onClickExpandStream(new_element.id);};
       const divElement = document.getElementById('testing-video');
       new_element.srcObject = myStream;
       new_element.onloadedmetadata = ()=>{
@@ -221,6 +227,20 @@ function App() {
     part.style.display = "block";
   }
 
+  const onClickExpandStream = (id)=>{
+    const div_element = document.getElementById(id);
+    const main_div = document.getElementById('testing-video');
+    if(main_div&&main_div.style.display==='grid'){
+      main_div.style.cssText = 'display:flex;flex-direction: row;flex-wrap: wrap;margin: 1vw;width: inherit;';
+      if(div_element)
+        div_element.style.cssText='border-radius:1vw;padding: 1vw;max-width: 100%;';
+    }else{
+      main_div.style.cssText = ' display: grid;width: inherit;grid-template-columns: repeat(auto-fill,minmax(500px,1fr));grid-gap: 1vw;';
+      if(div_element)
+        div_element.style.cssText='border-radius:1vw;width: inherit;max-width: 50vw;cursor: pointer;';
+    }
+  }
+
   const onClickMedia = ()=>{
     const my_media = document.getElementsByClassName('mediaChat');
     const my_chat = document.getElementsByClassName('chat-wrapper');
@@ -253,6 +273,12 @@ function App() {
   }
   return (
     <div className="App">
+              <nav className="navbar navbar-top sticky-top navbar-light bg-light">
+                <a className="navbar-brand" href="#">
+                  <img src="/docs/4.0/assets/brand/bootstrap-solid.svg" width="30" height="30" className="d-inline-block align-top" alt=""/>
+                  meetify
+                </a>
+              </nav>
         {
           MeetID&&UserID?
             <div className='main-render-wrapper'>
@@ -274,11 +300,11 @@ function App() {
                   </div>
                   <div className='Participants' id='Participants'><Participants participants={Participants_list}/></div>
                   <div id='chat'>
-                  <div className='chat'><GroupChat socket={socket} message={message} UserID={UserID}/></div>
-                  <div className='message-box'>
-                    <input className='message-textbox' id='message-input-field' onChange={onChangeInput} placeholder='Write your message..'></input>
-                    <button onClick={onClickSend}>Send</button>
-                  </div>
+                    <div className='chat'><GroupChat socket={socket} message={message} UserID={UserID}/></div>
+                    <div className='message-box'>
+                      <input className='message-textbox' id='message-input-field' onChange={onChangeInput} placeholder='Write your message..'></input>
+                      <button onClick={onClickSend}>Send</button>
+                    </div>
                   </div>
                 </div>
                 :<div></div>
@@ -287,9 +313,17 @@ function App() {
             </div>
             </div>
             </div>
-              
-              <div className='footer'>
-                <nav className="navbar fixed-bottom navbar-light bg-dark">
+            </div>
+          :
+          <Login setMeetid={setMeetid} setUserID={setUserID} VideoID={VideoID} ScreenID={ScreenID} socket={socket}/>
+        }
+        <nav className="navbar navbar-bottom sticky-bottom navbar-light bg-light">
+              <FontAwesomeIcon icon={faMicrophone} className='icon' color="black" size="3x"/>
+              <FontAwesomeIcon icon={faMicrophoneSlash} className='icon' color="black"/>
+              <FontAwesomeIcon icon={faVideo} className='icon' color="black"/>
+              <FontAwesomeIcon icon={faVideoSlash} className='icon' color="black"/>
+              <FontAwesomeIcon icon={faArrowUp} className='icon' color="black"/>
+              <FontAwesomeIcon icon={faHouseUser} className='icon' color="black"/>
                 <button onClick={onClickMuteUnmute}>MUTE/UNMUTE</button>
                 <button onClick={onClickVideoOnOFF}>VIDEO ON/OFF</button>
                 <button onClick={onClickShareOnOFF}>SHARE/UNSHARE SCREEN</button>
@@ -298,11 +332,6 @@ function App() {
                  <button onClick={onClickChat}>CHAT</button>
                 </div>
                 </nav>
-              </div>
-            </div>
-          :
-          <Login setMeetid={setMeetid} setUserID={setUserID} VideoID={VideoID} ScreenID={ScreenID} socket={socket}/>
-        }
     </div>
   );
 }
