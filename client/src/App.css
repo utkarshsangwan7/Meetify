@@ -17,7 +17,7 @@
   display: grid;
   grid-template-rows: 10fr 1fr;
   height: inherit;
-  max-height: 65vh;
+  max-height: 60vh;
 }
 .message-box{
   display:grid;
@@ -33,6 +33,7 @@
 }
 /* width */
 ::-webkit-scrollbar {
+  display: none;
   width: 10px;
 }
 
@@ -64,7 +65,7 @@
 #testing-video{
   display: grid;
   width: inherit;
-  grid-template-columns: repeat(auto-fill,minmax(400px,auto));
+  grid-template-columns: repeat(auto-fill,minmax(400px,1fr));
   grid-gap: 1vw;
 }
 .video-tag{
@@ -82,7 +83,7 @@
 }
 .main-render{
   display: grid;
-  grid-template-columns: minmax(500px,2fr) 1fr;
+  grid-template-columns: minmax(500px,2fr) 0.9fr;
   grid-template-rows: auto;
   justify-items: center;
   /* align-items: center; */
@@ -135,6 +136,7 @@
   width: inherit;
   max-height: 79vh;
   overflow-y: scroll;
+  padding: 0.7vw;
 }
 .mediaChat{
   display: flex;
@@ -144,22 +146,18 @@
   width: inherit;
 }
 .groupChat-wrapper{
-  /* display: flex;
-  flex-direction: column;
-  flex-wrap: wrap;
-  align-items: flex-end;
-  width: inherit; */
   width: inherit;
   height: inherit;
   max-height: 79vh;
   position: sticky;
+  padding: 0.7vw;
 }
 .groupChat{
   display: flex;
   flex-wrap: wrap;
   width: inherit;
   height: inherit;
-  max-height: 79vh;
+  max-height: 75vh;
 }
 @media only screen and (max-width:1200px){
   .chat-wrapper{

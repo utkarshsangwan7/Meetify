@@ -23,7 +23,7 @@ const Login = ({setMeetid,setUserID,socket,VideoID,ScreenID})=>{
         <div>
             <input id='Meetid' placeholder='Meeting ID' onChange={onMeetID}></input>
             <input id='Userid' placeholder='User ID' onChange={onUserID}></input>
-            <button onClick={onClickJoin}>Join</button>
+            <button className="btn btn-outline-dark" onClick={onClickJoin}>Join</button>
         </div>
     );
 }
