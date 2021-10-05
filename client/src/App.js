@@ -216,7 +216,7 @@ function App() {
   const displayMessages = ()=>{
     const chat = document.getElementById('chat');
     const part = document.getElementById('Participants');
-    chat.style.display = "block";
+    chat.style.display = "grid";
     part.style.display = "none";
   }
 
@@ -303,7 +303,7 @@ function App() {
                     <div className='chat'><GroupChat socket={socket} message={message} UserID={UserID}/></div>
                     <div className='message-box'>
                       <input className='message-textbox' id='message-input-field' onChange={onChangeInput} placeholder='Write your message..'></input>
-                      <button onClick={onClickSend}>Send</button>
+                      <button className='btn btn-outline-success' onClick={onClickSend}>Send</button>
                     </div>
                   </div>
                 </div>
@@ -317,21 +317,25 @@ function App() {
           :
           <Login setMeetid={setMeetid} setUserID={setUserID} VideoID={VideoID} ScreenID={ScreenID} socket={socket}/>
         }
-        <nav className="navbar navbar-bottom sticky-bottom navbar-light bg-light">
-              <FontAwesomeIcon icon={faMicrophone} className='icon' color="black" size="3x"/>
+        {
+           MeetID&&UserID?
+              <nav className="navbar navbar-bottom sticky-bottom navbar-light bg-light">
+              {/* <FontAwesomeIcon icon={faMicrophone} className='icon' color="black" size="3x"/>
               <FontAwesomeIcon icon={faMicrophoneSlash} className='icon' color="black"/>
               <FontAwesomeIcon icon={faVideo} className='icon' color="black"/>
               <FontAwesomeIcon icon={faVideoSlash} className='icon' color="black"/>
               <FontAwesomeIcon icon={faArrowUp} className='icon' color="black"/>
-              <FontAwesomeIcon icon={faHouseUser} className='icon' color="black"/>
-                <button onClick={onClickMuteUnmute}>MUTE/UNMUTE</button>
-                <button onClick={onClickVideoOnOFF}>VIDEO ON/OFF</button>
-                <button onClick={onClickShareOnOFF}>SHARE/UNSHARE SCREEN</button>
+              <FontAwesomeIcon icon={faHouseUser} className='icon' color="black"/> */}
+                <button type="button" className="btn btn-light" data-toggle="button" aria-pressed="false" autocomplete="off" onClick={onClickMuteUnmute}>MUTE/UNMUTE</button>
+                <button type="button" className="btn btn-light" data-toggle="button" aria-pressed="false" autocomplete="off" onClick={onClickVideoOnOFF}>VIDEO ON/OFF</button>
+                <button type="button" className="btn btn-light" onClick={onClickShareOnOFF}>SHARE/UNSHARE SCREEN</button>
                 <div className='Button-toggle'>
-                 <button onClick={onClickMedia}>HOME</button>
-                 <button onClick={onClickChat}>CHAT</button>
+                  <button onClick={onClickMedia}>HOME</button>
+                  <button onClick={onClickChat}>CHAT</button>
                 </div>
                 </nav>
+              :<div></div>
+        }
     </div>
   );
 }

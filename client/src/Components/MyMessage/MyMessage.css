@@ -1,0 +1,35 @@
+.my-message{
+    background-color: #A7BBC7;
+    color: black;
+    border-radius: 10px;
+}
+.my-message-wrapper{
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    max-width: 30vw;
+}
+#my{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    margin: 1.5vw;
+    overflow-wrap: anywhere;
+}
+@media only screen and (max-width:1200px) {
+    .my-message-wrapper{
+        display: flex;
+        flex-direction: column;
+        flex-wrap: wrap;
+        align-items: flex-end;
+        max-width: 40vw;
+    }
+    #my{
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: flex-end;
+        margin: 3vw;
+        overflow-wrap: anywhere;
+    }
+}
