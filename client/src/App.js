@@ -30,6 +30,10 @@ function App() {
     setStreams(Streams=>Streams.concat(remoteStream));
   }
 
+  // useEffect(()=>{
+  //   if(!myStream&&MeetID)configure_media();
+  // },[MeetID]);
+  
   useEffect(()=>{
       my_peer.on('open',(id)=>{
           setVideoID(id);
@@ -54,6 +58,9 @@ function App() {
       socket.on('UpdateParticipants',(user_list)=>{
         console.log(user_list);
         setParticipants(user_list);
+      });
+      socket.on('SetYourMediaStream',()=>{
+        configure_media();
       });
       socket.on('RemoveParticipantLeft',(user)=>{
         const divElement = document.getElementById('video-tag'+user.StreamID);
@@ -91,10 +98,6 @@ function App() {
   },[socket]);
 
   useEffect(()=>{
-    if(!myStream&&MeetID)configure_media();
-  },[MeetID]);
-
-  useEffect(()=>{
     let new_element=null,divElement=null;
     if(Streams.length){
       new_element = document.createElement('video');
@@ -114,6 +117,10 @@ function App() {
     }
   },[Streams]);
 
+  useEffect(()=>{
+    if(myStream){
+      socket.emit('MediaStreamSet',MeetID,UserID,VideoID);
+    }
     if(myStream){
       socket.off('CallNewUser').on('CallNewUser',(name,user_videoID)=>{
           console.log('this is the new stream in the old',myStream);
@@ -126,22 +133,23 @@ function App() {
             }
           });
       });}
-      if(myStream){
-        my_peer.off('call').on('call',(call)=>{
-            console.log('this is the new stream in the new',myStream);
-            call.answer(myStream);
-            call.on('stream',(remoteStream)=>{
-              if(remoteStream!==null){ 
-              if(!callList[call.peer]){
-                console.log('i am the oldest not getting back stream in the new',remoteStream);
-                change_State_of_Streams(remoteStream);
-                callList[call.peer] = call;
-              }
-              }
-            });
+      my_peer.off('call').on('call',(call)=>{
+        console.log('this is the new stream in the new',myStream);
+        if(myStream){
+        call.answer(myStream);
+        call.on('stream',(remoteStream)=>{
+          if(remoteStream!==null){ 
+            if(!callList[call.peer]){
+              console.log('i am the oldest not getting back stream in the new',remoteStream);
+              change_State_of_Streams(remoteStream);
+              callList[call.peer] = call;
+            }
+          }
         });
       }
-
+    });
+  },[myStream]);
+   
       if(myStream){
         socket.off('RecieveShareScreen').on('RecieveShareScreen',(user_videoID)=>{
           console.log('Ask for shared Screen',myStream);

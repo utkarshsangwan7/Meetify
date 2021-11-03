@@ -59,7 +59,6 @@ io.on('connection',(socket)=>{
 	socket.on('Join',(groupId,UserId,VideoID,ScreenID)=>{
 		socket.join(groupId);
 		insert_participants(UserId,groupId,socket.id,VideoID,ScreenID);
-		socket.to(groupId).emit('CallNewUser',UserId,VideoID);
 		GID = groupId;
 		insert_Messages('BOT',`@${UserId} jumped in!!`,groupId);
 		const groupChat = filter_Messages(groupId);
@@ -67,6 +66,11 @@ io.on('connection',(socket)=>{
 		console.log(group_list);
 		io.sockets.in(groupId).emit('GroupChat',groupChat);
 		io.sockets.in(groupId).emit('UpdateParticipants',group_list);
+		socket.emit('SetYourMediaStream');
+		socket.to(groupId).emit('CallNewUser',UserId,VideoID);
+	});
+	socket.on('MediaStreamSet',(groupId,UserId,VideoID)=>{
+		socket.to(groupId).emit('CallNewUser',UserId,VideoID);
 	});
 	socket.on('conversation',(message,groupId,UserId)=>{
 		insert_Messages(UserId,message,groupId);
