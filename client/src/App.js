@@ -1,6 +1,7 @@
 import React,{useState,useEffect}from 'react';
 import GroupChat from './Components/GroupChat/GroupChat';
 import Participants from './Components/Participants/Participants';
+import brandIcon from './m.png';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMicrophone,faMicrophoneSlash,faVideo,faVideoSlash,faArrowUp,faHouseUser,faMess} from '@fortawesome/free-solid-svg-icons'
 import Login from './Components/Login/Login';
@@ -29,10 +30,6 @@ function App() {
     console.log('CHECK STREAMS',Streams);
     setStreams(Streams=>Streams.concat(remoteStream));
   }
-
-  // useEffect(()=>{
-  //   if(!myStream&&MeetID)configure_media();
-  // },[MeetID]);
   
   useEffect(()=>{
       my_peer.on('open',(id)=>{
@@ -103,8 +100,7 @@ function App() {
       new_element = document.createElement('video');
       new_element.id = 'video-tag'+Streams[Streams.length-1].id;
       new_element.className = 'video-tag';
-      new_element.setAttribute('onclick',`onClickExpandStream(${new_element.id});`); // for FF
-      new_element.onclick = function() {onClickExpandStream(new_element.id);};
+      new_element.addEventListener('dblclick',(event)=>{onClickExpandStream(new_element.id)});
       divElement = document.getElementById('testing-video');
       new_element.srcObject = Streams[Streams.length-1];
       console.log('last index stream',Streams[Streams.length-1]);
@@ -176,8 +172,7 @@ function App() {
       new_element.muted = true;
       new_element.id = 'video-tag'+myStream.id;
       new_element.className = 'video-tag';
-      new_element.setAttribute('onclick',`onClickExpandStream(${new_element.id});`); // for FF
-      new_element.onclick = function() {onClickExpandStream(new_element.id);};
+      new_element.addEventListener('dblclick',(event)=>{onClickExpandStream(new_element.id)});
       const divElement = document.getElementById('testing-video');
       new_element.srcObject = myStream;
       new_element.onloadedmetadata = ()=>{
@@ -236,14 +231,38 @@ function App() {
   }
 
   const onClickExpandStream = (id)=>{
+    const main_video_div = document.createElement('div');
+    const secondary_video_div = document.createElement('div');
+    main_video_div.id = 'main_video_div';
+    secondary_video_div.id = 'secondary_video_div';
     const div_element = document.getElementById(id);
     const main_div = document.getElementById('testing-video');
+    let children = document.getElementById('testing-video').childNodes;
     if(main_div&&main_div.style.display==='grid'){
-      main_div.style.cssText = 'display:flex;flex-direction: row;flex-wrap: wrap;margin: 1vw;width: inherit;';
-      if(div_element)
-        div_element.style.cssText='border-radius:1vw;padding: 1vw;max-width: 100%;';
-    }else{
+      let my_array = []
+      for(let i=0;i<children.length;i++){
+        if(div_element.id!==children[i].id){
+          my_array.push(children[i]);
+        }
+      }
+      console.log(my_array);
+      main_div.textContent = '';
+      console.log(my_array);
+      for(let i=0;i<my_array.length;i++){
+        secondary_video_div.appendChild(my_array[i]);
+      }
+      main_video_div.appendChild(div_element);
+      main_video_div.style.cssText = 'width: 100%;';
+      secondary_video_div.style.cssText = 'width: 100%;';
+      main_div.style.cssText = 'grid-template-columns: 0.75fr 0.25fr;grid-template-rows: auto;';
+      main_div.prepend(secondary_video_div);
+      main_div.prepend(main_video_div);
+    }
+    else{
       main_div.style.cssText = ' display: grid;width: inherit;grid-template-columns: repeat(auto-fill,minmax(500px,1fr));grid-gap: 1vw;';
+      for(let i=0;i<children.length;++i){
+        children[i].style.cssText = 'border-radius:1vw;width: inherit;max-width: 50vw;cursor: pointer;';
+      }
       if(div_element)
         div_element.style.cssText='border-radius:1vw;width: inherit;max-width: 50vw;cursor: pointer;';
     }
@@ -273,6 +292,16 @@ function App() {
     });
   }
 
+  const onClickLeave = ()=>{
+    socket.disconnect();
+    myStream.getTracks().forEach(function(track) {
+      track.stop();
+    });
+    setMeetid(null);
+    setMyStream(null);
+    setStreams([]);
+  }
+
   if(ScreenStream){
     ScreenStream.getVideoTracks()[0].addEventListener('ended', () => {
     console.log('Removing the Screen Share Div');
@@ -283,7 +312,7 @@ function App() {
     <div className="App">
               <nav className="navbar navbar-top sticky-top navbar-light bg-light">
                 <a className="navbar-brand" href="#">
-                  <img src="/docs/4.0/assets/brand/bootstrap-solid.svg" width="30" height="30" className="d-inline-block align-top" alt=""/>
+                  <img src={brandIcon} width="50" height="50" className="d-inline-block" alt=""/>
                   meetify
                 </a>
               </nav>
@@ -337,6 +366,7 @@ function App() {
                 <button type="button" className="btn btn-light" data-toggle="button" aria-pressed="false" autocomplete="off" onClick={onClickMuteUnmute}>MUTE/UNMUTE</button>
                 <button type="button" className="btn btn-light" data-toggle="button" aria-pressed="false" autocomplete="off" onClick={onClickVideoOnOFF}>VIDEO ON/OFF</button>
                 <button type="button" className="btn btn-light" onClick={onClickShareOnOFF}>SHARE/UNSHARE SCREEN</button>
+                <button type="button" className="btn btn-danger" onClick={onClickLeave}>LEAVE MEET</button>
                 <div className='Button-toggle'>
                   <button onClick={onClickMedia}>HOME</button>
                   <button onClick={onClickChat}>CHAT</button>
