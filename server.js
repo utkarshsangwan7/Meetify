@@ -5,6 +5,7 @@ const socketio = require('socket.io');
 const app = express();
 const server = http.createServer(app);
 const io = socketio(server);
+const path = require('path');
 const port = process.env.PORT || 2000;
 
 const messages = [];
@@ -53,6 +54,12 @@ const filter_Users = (groupId)=>{
 	return group_Users;
 }
 app.use(cors());
+
+app.use(express.static(path.join(__dirname, "/client/build")));
+
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '/client/build', 'index.html'));
+});
 
 io.on('connection',(socket)=>{
 	let GID = '';
