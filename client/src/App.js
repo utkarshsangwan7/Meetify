@@ -9,6 +9,7 @@ import './App.css';
 import Socketio from 'socket.io-client';
 import Peer from 'peerjs';
 
+console.log(`${process.env.REACT_APP_SERVER_URL}`);
 const socket = Socketio(`${process.env.REACT_APP_SERVER_URL}`,{ transports: ['websocket', 'polling', 'flashsocket'] });
 const my_peer = new Peer();
 const screen_peer = new Peer();
