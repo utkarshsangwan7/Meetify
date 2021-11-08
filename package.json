@@ -4,9 +4,12 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon server.js"
+    "start": "nodemon server.js",
+    "build": "cd /client npm install && npm run build"
   },
-  "heroku-postbuild": "cd client && npm install && npm start",
+  "engines": {
+    "node": "^15.12.0"
+  },
   "author": "",
   "license": "ISC",
   "dependencies": {
