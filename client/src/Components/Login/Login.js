@@ -11,13 +11,15 @@ const Login = ({setMeetid,setUserID,socket,VideoID,ScreenID})=>{
         setUserInput(e.target.value);
     }
     const onClickJoin = ()=>{
-        setMeetid(MeetInput);
-        setUserID(UserInput);
-        socket.emit('Join',MeetInput,UserInput,VideoID,ScreenID);
-        const input1 = document.getElementById('Meetid');
-        const input2 = document.getElementById('Userid');
-        input1.value = '';
-        input2.value = '';
+        if(MeetInput&&UserInput){
+            setMeetid(MeetInput);
+            setUserID(UserInput);
+            socket.emit('Join',MeetInput,UserInput,VideoID,ScreenID);
+            const input1 = document.getElementById('Meetid');
+            const input2 = document.getElementById('Userid');
+            input1.value = '';
+            input2.value = '';
+        }
     }
     return(
         <div>

@@ -5,6 +5,7 @@ const socketio = require('socket.io');
 const app = express();
 const server = http.createServer(app);
 const io = socketio(server);
+const port = process.env.PORT || 2000;
 
 const messages = [];
 const All_participants = [];
@@ -108,7 +109,7 @@ io.on('connection',(socket)=>{
 	});
 });
 
-server.listen(2000,()=>{
-	console.log("The server is up and running");
+server.listen(port,()=>{
+	console.log(`The server is up and running on port ${port}`);
 });
 

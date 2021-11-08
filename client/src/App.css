@@ -159,6 +159,9 @@
   height: inherit;
   max-height: 75vh;
 }
+.btn-nav{
+  margin: 0.5vw;
+}
 @media only screen and (max-width:1200px){
   .chat-wrapper{
     display: none;
@@ -192,6 +195,6 @@
   .video-tag{
     border-radius:1vw;
     padding: 1vw;
-    max-width: 100%;
+    max-width: inherit;
   }
 }

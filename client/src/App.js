@@ -9,7 +9,7 @@ import './App.css';
 import Socketio from 'socket.io-client';
 import Peer from 'peerjs';
 
-const socket = Socketio('http://localhost:2000/',{ transports: ['websocket', 'polling', 'flashsocket'] });
+const socket = Socketio(`${process.env.REACT_APP_SERVER_URL}`,{ transports: ['websocket', 'polling', 'flashsocket'] });
 const my_peer = new Peer();
 const screen_peer = new Peer();
 function App() {
@@ -51,6 +51,8 @@ function App() {
       
       socket.on('GroupChat',(message)=>{
         setMessage(message);
+        const div_element = document.getElementById('scrollable-chat');
+        div_element.scrollTop = div_element.scrollHeight;
       });
       socket.on('UpdateParticipants',(user_list)=>{
         console.log(user_list);
@@ -196,6 +198,7 @@ function App() {
       setInput(e.target.value);
   } 
   const onClickSend = ()=>{
+    if(input){
       setMessage([
         ...message,
           {
@@ -206,6 +209,7 @@ function App() {
       socket.emit('conversation',input,MeetID,UserID);
       const inputfield = document.getElementById('message-input-field');
       inputfield.value = '';
+    }
   }
   
   const onClickMuteUnmute = ()=>{
@@ -261,10 +265,10 @@ function App() {
     else{
       main_div.style.cssText = ' display: grid;width: inherit;grid-template-columns: repeat(auto-fill,minmax(500px,1fr));grid-gap: 1vw;';
       for(let i=0;i<children.length;++i){
-        children[i].style.cssText = 'border-radius:1vw;width: inherit;max-width: 50vw;cursor: pointer;';
+        children[i].style.cssText = 'border-radius:1vw;width: inherit;cursor: pointer;';
       }
       if(div_element)
-        div_element.style.cssText='border-radius:1vw;width: inherit;max-width: 50vw;cursor: pointer;';
+        div_element.style.cssText='border-radius:1vw;width: inherit;cursor: pointer;';
     }
   }
 
@@ -300,6 +304,8 @@ function App() {
     setMeetid(null);
     setMyStream(null);
     setStreams([]);
+    setUserID('');
+    setScreenID('');
   }
 
   if(ScreenStream){
@@ -315,6 +321,10 @@ function App() {
                   <img src={brandIcon} width="50" height="50" className="d-inline-block" alt=""/>
                   meetify
                 </a>
+                {UserID?
+                <h3>{`@${UserID}`}</h3>
+                :<h3></h3>
+                }
               </nav>
         {
           MeetID&&UserID?
@@ -337,7 +347,7 @@ function App() {
                   </div>
                   <div className='Participants' id='Participants'><Participants participants={Participants_list}/></div>
                   <div id='chat'>
-                    <div className='chat'><GroupChat socket={socket} message={message} UserID={UserID}/></div>
+                    <div className='chat' id='scrollable-chat'><GroupChat socket={socket} message={message} UserID={UserID}/></div>
                     <div className='message-box'>
                       <input className='message-textbox' id='message-input-field' onChange={onChangeInput} placeholder='Write your message..'></input>
                       <button className='btn btn-outline-success' onClick={onClickSend}>Send</button>
@@ -363,10 +373,10 @@ function App() {
               <FontAwesomeIcon icon={faVideoSlash} className='icon' color="black"/>
               <FontAwesomeIcon icon={faArrowUp} className='icon' color="black"/>
               <FontAwesomeIcon icon={faHouseUser} className='icon' color="black"/> */}
-                <button type="button" className="btn btn-light" data-toggle="button" aria-pressed="false" autocomplete="off" onClick={onClickMuteUnmute}>MUTE/UNMUTE</button>
-                <button type="button" className="btn btn-light" data-toggle="button" aria-pressed="false" autocomplete="off" onClick={onClickVideoOnOFF}>VIDEO ON/OFF</button>
-                <button type="button" className="btn btn-light" onClick={onClickShareOnOFF}>SHARE/UNSHARE SCREEN</button>
-                <button type="button" className="btn btn-danger" onClick={onClickLeave}>LEAVE MEET</button>
+                <button type="button" className="btn-nav btn btn-light" data-toggle="button" aria-pressed="false" autocomplete="off" onClick={onClickMuteUnmute}>MUTE/UNMUTE</button>
+                <button type="button" className="btn-nav btn btn-light" data-toggle="button" aria-pressed="false" autocomplete="off" onClick={onClickVideoOnOFF}>VIDEO ON/OFF</button>
+                <button type="button" className="btn-nav btn btn-outline-warning" onClick={onClickShareOnOFF}>SHARE/UNSHARE SCREEN</button>
+                <button type="button" className="btn-nav btn btn-danger" onClick={onClickLeave}>LEAVE MEET</button>
                 <div className='Button-toggle'>
                   <button onClick={onClickMedia}>HOME</button>
                   <button onClick={onClickChat}>CHAT</button>
