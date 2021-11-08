@@ -27,7 +27,6 @@ function App() {
   const callList = [];
 
   const change_State_of_Streams = (remoteStream)=>{
-    console.log('CHECK STREAMS',Streams);
     setStreams(Streams=>Streams.concat(remoteStream));
   }
   
