@@ -2,8 +2,6 @@ import React,{useState,useEffect}from 'react';
 import GroupChat from './Components/GroupChat/GroupChat';
 import Participants from './Components/Participants/Participants';
 import brandIcon from './m.png';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faMicrophone,faMicrophoneSlash,faVideo,faVideoSlash,faArrowUp,faHouseUser,faMess} from '@fortawesome/free-solid-svg-icons'
 import Login from './Components/Login/Login';
 import './App.css';
 import Socketio from 'socket.io-client';
@@ -306,6 +304,8 @@ function App() {
     setStreams([]);
     setUserID('');
     setScreenID('');
+    window.open("about:blank", "_self");
+    window.close();
   }
 
   if(ScreenStream){
@@ -316,7 +316,7 @@ function App() {
   }
   return (
     <div className="App">
-              <nav className="navbar navbar-top sticky-top navbar-light bg-light">
+              <nav className="navbar navbar-top sticky-top navbar-light">
                 <a className="navbar-brand" href="#">
                   <img src={brandIcon} width="50" height="50" className="d-inline-block" alt=""/>
                   meetify
@@ -367,12 +367,6 @@ function App() {
         {
            MeetID&&UserID?
               <nav className="navbar navbar-bottom sticky-bottom navbar-light bg-light">
-              {/* <FontAwesomeIcon icon={faMicrophone} className='icon' color="black" size="3x"/>
-              <FontAwesomeIcon icon={faMicrophoneSlash} className='icon' color="black"/>
-              <FontAwesomeIcon icon={faVideo} className='icon' color="black"/>
-              <FontAwesomeIcon icon={faVideoSlash} className='icon' color="black"/>
-              <FontAwesomeIcon icon={faArrowUp} className='icon' color="black"/>
-              <FontAwesomeIcon icon={faHouseUser} className='icon' color="black"/> */}
                 <button type="button" className="btn-nav btn btn-light" data-toggle="button" aria-pressed="false" autocomplete="off" onClick={onClickMuteUnmute}>MUTE/UNMUTE</button>
                 <button type="button" className="btn-nav btn btn-light" data-toggle="button" aria-pressed="false" autocomplete="off" onClick={onClickVideoOnOFF}>VIDEO ON/OFF</button>
                 <button type="button" className="btn-nav btn btn-outline-warning" onClick={onClickShareOnOFF}>SHARE/UNSHARE SCREEN</button>

@@ -1,0 +1,70 @@
+.landing-main{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    height: 100%;
+}
+
+.main-card{
+    border: 0;
+}
+.back{
+    height: 100%;
+    background-image: linear-gradient(180deg,#C6FFDD,#FBD786,#f7797d);
+    background-blend-mode: overlay;
+    background-position: center; 
+    background-repeat: no-repeat; 
+    background-size: cover; 
+    clip-path: polygon(3% 0%,100% 0%,80% 100%,3% 100%);
+}
+.write-up{
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+}
+
+.main-card-inner{
+    height: 100%;
+}
+
+.login-wrap{
+    height: 50vh;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    justify-content: center;
+    align-content: center;
+    width: 75%;
+    box-shadow: 0 3px 10px rgb(0 0 0 / 0.7);
+}
+.login-heading{
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-content:center;
+    height: 20%;
+}
+.login{
+   display: flex;
+   flex-direction: column;
+   flex-wrap: wrap;
+   justify-content: center;
+   align-content:center;
+   height: 60%;
+}
+#Meetid,#Userid,.join{
+    margin: 1vw;
+    width: 100%;
+}
+@media only screen and (max-width:770px){
+    .back{
+        height: fit-content;
+        clip-path: polygon(0% 0%,100% 0%,100% 100%,0% 100%);
+    }
+    .write-up{
+        margin: 10vw;
+    }
+}
