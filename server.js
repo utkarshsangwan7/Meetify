@@ -57,7 +57,7 @@ const filter_Users = (groupId)=>{
 app.use(express.static(path.resolve(__dirname, "/opt/render/project/src/client/build/index.html")));
 
 app.get('*', (req, res) => {
-  res.sendFile(path.resolve(__dirname, '/opt/render/project/src/client/build/index.html', 'index.html'));
+  res.sendFile(path.resolve(__dirname, '/opt/render/project/src/client/build/', 'index.html'));
 });
 
 app.use(cors());
@@ -116,6 +116,7 @@ io.on('connection',(socket)=>{
 		}
 	});
 });
+
 
 server.listen(port,()=>{
 	console.log(`The server is up and running on port ${port}`);
