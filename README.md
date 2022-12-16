@@ -17,6 +17,9 @@
   <a href="#-license">License</a>
 </p>
 
+## **1. Methodology and Architecture **
+
+<img src="https://blog.theodo.com/static/c9176c500e8ef45f7afdafaa14651a01/a1aa0/app-architecture.png" width="80%" height="80%">
 ## 💻 About the project
 
 - <p style="color: red;">Description
