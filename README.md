@@ -20,19 +20,32 @@
 ## **1. Methodology and Architecture **
 
 <img src="https://blog.theodo.com/static/c9176c500e8ef45f7afdafaa14651a01/a1aa0/app-architecture.png" width="80%" height="80%">
-## 💻 About the project
+## 💻 **2. About the project **
 
-- <p style="color: red;">Description
+- <p style="color: red;">Website built to let dozens of people join the same virtual meeting, and speak or share video with each other from anywhere with internet access.
 
 </p>
 
-## 🚀 Technologies
+## 🚀 **3. Technologies **
 
 - NodeJS
 - Materialize
 - ReactJS
 - PeerJS
 - Webrtc
+
+## 🚀 **4. Input/Output **
+ - Unique Meet ID
+ - User ID of your choice
+
+## 🚀 **5. Live Link **
+Link: https://my-meetify.onrender.com/
+
+
+## **5. Screenshot of the Interface**
+![ui1](https://user-images.githubusercontent.com/69333094/208023787-e9424d32-4353-4b83-be14-720f8f72fe1e.jpg)
+
+![ui2](https://user-images.githubusercontent.com/69333094/208023796-16aa9479-7b0e-42b7-9383-cebc864888e4.jpg)
 
 ## 💻 Getting started
 
@@ -60,35 +73,3 @@ npm i
 node app.js
 ```
 
-## 🤔 How to contribute
-
-**Make a fork of this repository**
-
-```bash
-# Fork using GitHub official command line
-# If you don't have the GitHub CLI, use the web site to do that.
-
-$ gh repo fork EliasGcf/NOME_DO_REPO
-```
-
-**Follow the steps below**
-
-```bash
-# Clone your fork
-$ git clone your-fork-url && cd NOME_DO_REPO
-
-# Create a branch with your feature
-$ git checkout -b my-feature
-
-# Make the commit with your changes
-$ git commit -m 'feat: My new feature'
-
-# Send the code to your remote branch
-$ git push origin my-feature
-```
-
-After your pull request is merged, you can delete your branch
-
-## 📝 License
-
-<!-- You can delete the license if you don't want it -->
