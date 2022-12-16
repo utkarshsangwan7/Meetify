@@ -18,9 +18,8 @@
 </p>
 
 ## **1. Methodology and Architecture **
-<img src="https://www.google.com/url?sa=i&url=https%3A%2F%2Fblog.theodo.com%2F2021%2F01%2FwebRTC-websockets-video-call-app%2F&psig=AOvVaw07I7XFwN-Qs4GIZ7HLF8x7&ust=1671250174736000&source=images&cd=vfe&ved=0CBAQjRxqFwoTCLiW15mi_fsCFQAAAAAdAAAAABAj" width="80%" height="80%">
 
-<img src="https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.etatvasoft.com%2Finsights%2Fhow-to-integrate-simple-video-call-and-voice-chat-functionality-with-webrtc-socket-io-node-js%2F&psig=AOvVaw07I7XFwN-Qs4GIZ7HLF8x7&ust=1671250174736000&source=images&cd=vfe&ved=0CBAQjRxqFwoTCLiW15mi_fsCFQAAAAAdAAAAABAo" width="80%" height="80%">
+<img src="https://blog.theodo.com/static/c9176c500e8ef45f7afdafaa14651a01/a1aa0/app-architecture.png" width="80%" height="80%">
 ## 💻 About the project
 
 - <p style="color: red;">Description
