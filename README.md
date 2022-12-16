@@ -38,11 +38,11 @@
  - Unique Meet ID
  - User ID of your choice
 
-## 🚀 **5. Live Link **
+## 🚀 ** 5. Live Link **
 Link: https://my-meetify.onrender.com/
 
 
-## **5. Screenshot of the Interface**
+## ** 6. Screenshot of the Interface**
 ![ui1](https://user-images.githubusercontent.com/69333094/208023787-e9424d32-4353-4b83-be14-720f8f72fe1e.jpg)
 
 ![ui2](https://user-images.githubusercontent.com/69333094/208023796-16aa9479-7b0e-42b7-9383-cebc864888e4.jpg)
